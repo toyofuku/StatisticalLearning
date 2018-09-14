@@ -46,7 +46,7 @@ for (j in 1:TESTXNUMBER){
    }
 }
 ##################### Draw Training Samples ####################
-par(mfrow=c(4,4))
+layout(matrix(c(1,15,14,14,2,3,4,5,6,7,8,9,10,11,12,13),4,4,byrow=T))
 
 xlim  <-  c(-2,2)
 ylim  <-  c(-2,2)
@@ -54,7 +54,7 @@ ylim  <-  c(-2,2)
 plot(0,0,type='n',xlim=xlim,ylim=ylim)
 for(i in 1:n){
    if(ydata[i]>0.5){
-     points(xdata[1,i],xdata[2,i],col='red',pch='o',xlim=xlim,ylim=ylim)
+     points(xdata[1,i],xdata[2,i],col='red',pch=1,xlim=xlim,ylim=ylim)
    } else {
      points(xdata[1,i],xdata[2,i],col='blue',pch='*',xlim=xlim,ylim=ylim)
    }
@@ -82,10 +82,10 @@ for(cycle in 1:CYCLEALL){
   dw  <- delta2 %*% t(x) +ALPHA*dw
   dth <- delta2          +ALPHA*dth
   ################### stochastic steepest descent ##########
-  u  <- u  -ETA*du-diffhyper(u)
-  ph <- ph -ETA*dph
-  w  <- w  -ETA*dw-diffhyper(w)
-  th <- th -ETA*dth
+  u  <- u  -ETA * du  - diffhyper(u)
+  ph <- ph -ETA * dph
+  w  <- w  -ETA * dw  - diffhyper(w)
+  th <- th -ETA * dth
  }
  ########## Draw Trained Results ################
  xxx <- matrix(0,2,1)
@@ -105,8 +105,7 @@ for(cycle in 1:CYCLEALL){
    }
   }
   training_err[cycle/CYCLEONE] <- training_e/n
-  test_err[cycle/CYCLEONE] <- test_e/(TESTXNUMBER^2)
-#  contour(testx1,testx2,testy,5)
+  test_err[cycle/CYCLEONE]     <- test_e/(TESTXNUMBER^2)
   contour(seq(-2,2,0.1),seq(-2,2,0.1), testy, nlevels=5)
   train_process[cycle/CYCLEONE] <- cycle
  }
@@ -123,7 +122,7 @@ title('Training Cycle. Blue:Training Error, Red:Test Error')
 plot(0,0,type='n',xlim=xlim,ylim=ylim)
 for(i in 1:n){
    if(ydata[i]>0.5){
-     points(xdata[1,i],xdata[2,i],col='red',pch='o',xlim=xlim,ylim=ylim)
+     points(xdata[1,i],xdata[2,i],col='red',pch=1,xlim=xlim,ylim=ylim)
    } else {
     points(xdata[1,i],xdata[2,i],col='blue',pch='*',xlim=xlim,ylim=ylim)
    }
@@ -137,7 +136,7 @@ for(j in 1:TESTXNUMBER){
     testy[j,k] <- neuron(u,ph,h)
    }
 }
-contour(seq(-2,2,0.1),seq(-2,2,0.1),testy, add=T, nlevels=5)
+contour(seq(-2,2,0.1),seq(-2,2,0.1),testy, add=T, drawlabels=F, levels=c(0.5))
 
 title('Trained Neural Network')
 ########## } ################
