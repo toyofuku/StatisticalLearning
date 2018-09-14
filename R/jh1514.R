@@ -217,7 +217,6 @@ if(LinearPred==1){
 #############################################################
 #############################################################
 
-# par(mfrow=c(4,1))
 layout(matrix(c(1,1,4,2,2,4,3,3,4),3,3,byrow=T))
 ###### Draw Results 1 : Training and Generalization Errors
 
@@ -256,13 +255,11 @@ for(i in 1:ntest){
   ans2[i] <- h0[1]
 }
 
-#subplot(2,1,1)
 plot(CCC1,true1,col='red',type='l',ylim=c(0,1),xlab="",ylab="")
 par(new=T)
 plot(CCC1,ans1,col='blue',type='l',ylim=c(0,1),xlab="",ylab="")
 title('Trained Data: red:true, blue:predicttion')
 
-#subplot(2,1,2)
 plot(CCC2,true2,col='red',type='l',ylim=c(0,1),xlab="",ylab="")
 par(new=T)
 plot(CCC2,ans2,col='blue',type='l',ylim=c(0,1),xlab="",ylab="")
@@ -287,13 +284,13 @@ for(j in 1:H1){
   bold <- floor((abs(w0[1,j])+0.9))
   if(bold > 0){
     if(w0[1,j] > 0){
-      lines(px,py,col='red')
+      lines(px,py,col='red',lwd=bold)
     } else{
-      lines(px,py,col='blue')
+      lines(px,py,col='blue',lwd=bold)
     }
   }
 }
-points(px[1],Y0,col='black')
+points(px[1],Y0,col='black',cex=2,lwd=2)
 
 py <- c(Y1, Y2)
 for(i in 1:H1){
@@ -303,13 +300,13 @@ for(i in 1:H1){
     bold <- floor(abs(w1[i,j])+0.9)
     if(bold > 0){
       if(w1[i,j] > 0){
-        lines(px,py,col='red')
+        lines(px,py,col='red',lwd=bold)
       } else {
-        lines(px,py,col='blue')
+        lines(px,py,col='blue',lwd=bold)
       }
     }
   }
-  points(px[1],2,col='black')
+  points(px[1],2,col='black',cex=2,lwd=2)
 }
 
 py <- c(Y2, Y3)
@@ -320,21 +317,19 @@ for(i in 1:H2){
     bold <- floor(abs(w2[i,j])+0.9)
     if(bold > 0){
       if(w2[i,j] > 0){
-        lines(px,py,col='red')
+        lines(px,py,col='red',lwd=bold)
       } else {
-        lines(px,py,col='blue')
+        lines(px,py,col='blue',lwd=bold)
       }
     }
   }
-  points(px[1],Y2,col='black')
+  points(px[1],Y2,col='black',cex=2,lwd=2)
 }
 
 for(i in 1:H3){
   px[1] <- (i-0.5)
-  points(px[1],Y3,col='black')
+  points(px[1],Y3,col='black',cex=2,lwd=2)
 }
-
-# set(prp,'Color', [0,0,0], 'MarkerFaceColor', [1,1,1],'MarkerSize',8, 'LineWidth', 2)
 
 title('Trained Network. Input: 27 months ago ---> Last month')
 
