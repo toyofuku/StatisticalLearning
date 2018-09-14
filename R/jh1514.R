@@ -47,7 +47,7 @@ for(i in 1:alldata){
 ############### RIDGE, LASSO, Network #############
 ###################################################
 HYPERPARAMETER1 <- 0.000004     ##### RIDGE Hyperparameter ##########
-HYPERPARAMETER2 <- 0.000002      ##### LASSO Hyperparameter ##########
+HYPERPARAMETER2 <- 0.000002     ##### LASSO Hyperparameter ##########
 if(RIDGE==1){
   fff <- function(a){return(HYPERPARAMETER1*a)}
 } else if(LASSO==1){
@@ -160,25 +160,25 @@ for(cycle in 0:(CYCLE-1)){
     h1 <- out(w1,th1,h2)
     h0 <- out(w0,th0,h1)
     ##############################
-    delta0 <- (h0-t) * (h0 * (1-h0)+EPSILON)
+    delta0 <- (h0-t)              * (h0 * (1-h0)+EPSILON)
     delta1 <- t(t(delta0) %*% w0) * (h1 * (1-h1)+EPSILON)
     delta2 <- t(t(delta1) %*% w1) * (h2 * (1-h2)+EPSILON)
     ################## gradient ###########
-    dw0 <- -ETA*delta0 %*% t(h1)+ALPHA*dw0
-    dth0 <- -ETA*delta0+ALPHA*dth0
-    dw1 <- -ETA*delta1 %*% t(h2)+ALPHA*dw1
-    dth1 <- -ETA*delta1+ALPHA*dth1
-    dw2 <- -ETA*delta2 %*% t(h3)+ALPHA*dw2
-    dth2 <- -ETA*delta2+ALPHA*dth2
+    dw0  <- -ETA*delta0 %*% t(h1) + ALPHA*dw0
+    dth0 <- -ETA*delta0           + ALPHA*dth0
+    dw1  <- -ETA*delta1 %*% t(h2) + ALPHA*dw1
+    dth1 <- -ETA*delta1           + ALPHA*dth1
+    dw2  <- -ETA*delta2 %*% t(h3) + ALPHA*dw2
+    dth2 <- -ETA*delta2           + ALPHA*dth2
     ################### steepest descent ##########
-    w0 <- w0+dw0-fff(w0)
-    th0 <- th0+dth0-fff(th0)
-    w1 <- w1+dw1-fff(w1)
-    th1 <- th1+dth1-fff(th1)
-    w2 <- w2+dw2-fff(w2)
-    th2 <- th2+dth2-fff(th2)
-    w2 <- wmask2 * w2
-    w1 <- wmask1 * w1
+    w0  <- w0  + dw0  - fff(w0)
+    th0 <- th0 + dth0 - fff(th0)
+    w1  <- w1  + dw1  - fff(w1)
+    th1 <- th1 + dth1 - fff(th1)
+    w2  <- w2  + dw2  - fff(w2)
+    th2 <- th2 + dth2 - fff(th2)
+    w2  <- wmask2 * w2
+    w1  <- wmask1 * w1
   }
  ############## Calculation of Training and Generalization Errors ####
  if(cycle %% MODCYC==0){
@@ -187,21 +187,21 @@ for(cycle in 0:(CYCLE-1)){
    for(i in 1:ntrain){
      ii <- (i%% 2)*(ntrain %/% 2)+((i+1) %/% 2)
      h3 <- matrix(xdata[,ii])
-     t <- matrix(ydata[1,ii])
+     t  <- matrix(ydata[1,ii])
      h2 <- out(w2,th2,h3)
      h1 <- out(w1,th1,h2)
      h0 <- out(w0,th0,h1)
-     err1 <- err1+ t(t-h0) %*% (t-h0)
+     err1 <- err1 + t(t-h0) %*% (t-h0)
    }
    Err1[cycle/MODCYC+1] <- err1/ntrain
    err2 <- 0
    for(i in (ntrain+1):alldata){
      h3 <- matrix(xdata[,i])
-     t <- matrix(ydata[1,i])
+     t  <- matrix(ydata[1,i])
      h2 <- out(w2,th2,h3)
      h1 <- out(w1,th1,h2)
      h0 <- out(w0,th0,h1)
-     err2 <- err2+ t(t-h0) %*% (t-h0)
+     err2 <- err2 + t(t-h0) %*% (t-h0)
    }
    Err2[cycle/MODCYC+1] <- err2/ntest
    cat(sprintf('[%g] Training error=%f, Test error=%f\n',cycle,err1,err2))
@@ -228,11 +228,11 @@ title('X: Training Cycle. Blue: Training Error, Red: Test Error.')
 #############################################################
 #############################################################
 true1 <- rep(0,ntrain)
-ans1 <- rep(0,ntrain)
-CCC1 <- rep(0,ntrain)
+ans1  <- rep(0,ntrain)
+CCC1  <- rep(0,ntrain)
 true2 <- rep(0,ntest)
-ans2 <- rep(0,ntest)
-CCC2 <- rep(0,ntest)
+ans2  <- rep(0,ntest)
+CCC2  <- rep(0,ntest)
 ###### Draw Results 2 : Training and Unknwon Time Series Predictions
 
 for(i in 1:ntrain){
