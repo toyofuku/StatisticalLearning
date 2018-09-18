@@ -6,10 +6,10 @@ rm(list=ls())
 PIX <- 5
 #################### READ Training data ############################
 cat('Training Characters.\n')
-A <- data.matrix( read.csv('wtnb/jh1505_train.txt', sep=" ", header=F) )
+A <- data.matrix( read.csv('wtnb/data/jh1505_train.txt', sep=" ", header=F) )
 A <- A[,1:25]
 
-par(mfrow=c(4,5))
+layout(matrix(c(1,2,3,4,5,6,7,8,9,10, 11,12,13,14,15,16,17,18,19,20, 21,21,21,21,21,21,21,21,21,21, 22,23,24,25,26,27,28,29,30,31),4,10,byrow=T))
 
 oo <- matrix(0, 5,5)
 for(i in 1:10){
@@ -19,7 +19,7 @@ for(i in 1:10){
     }
   }
   oo <- t(apply(oo,2,rev))
-  image(floor(254*(1-oo)), axis=F,col=gray.colors(255))
+  image(floor(254*(1-oo)), xaxt="n", yaxt="n",col=gray.colors(255))
   title('0')
 }
 for(i in 201:210){
@@ -29,7 +29,7 @@ for(i in 201:210){
     }
   }
   oo <- t(apply(oo,2,rev))
-  image(floor(254*(1-oo)), axis=F,col=gray.colors(255))
+  image(floor(254*(1-oo)), xaxt="n", yaxt="n",col=gray.colors(255))
   title('6')
 }
 
@@ -77,7 +77,7 @@ for(i in 1:n){
 }
 ####################### Test data
 cat('Training Characters.\n')
-B <- data.matrix( read.csv('wtnb/jh1505_test.txt', sep=" ", header=F) )
+B <- data.matrix( read.csv('wtnb/data/jh1505_test.txt', sep=" ", header=F) )
 B <- B[,1:25]
 xtest <- t(B)
 for(i in 1:ntest){
@@ -151,9 +151,9 @@ for(cycle in 0:(CYCLE-1)){
  }
 }
 
-plot(Err0,Err1,col='blue',type='l')
+plot(Err0,Err1,col='blue',type='l',ylim=c(0,0.2),ylab="")
 par(new=T)
-plot(Err0,Err2,col='red',type='l')
+plot(Err0,Err2,col='red',type='l',ylim=c(0,0.2),ylab="")
 title('X: Training Cycle. Blue: Training Error, Red: Test Error.')
 ########################## Trained  Data ###############################
 counter <- 0
@@ -202,8 +202,7 @@ for(i in 1:2){
     }
   }
   hh <- t(apply(hh,2,rev))
-#  subplot(3,H/2,i)
-  image(254*hh,col=jet.colors(255))
+  image(254*hh, xaxt="n", yaxt="n") #,col=jet.colors(255))
   title('output <- hidden')
 }
 ############################# From Input to Hidden ######################################
@@ -215,8 +214,7 @@ for(i in 1:H){
     }
   }
   oo <- t(apply(oo,2,rev))
-#  subplot(3,H/2,i+H/2)
-  image(254*oo,col=jet.colors(255))
+  image(254*oo, xaxt="n", yaxt="n") #,col=jet.colors(255))
   title('hidden <- input')
 }
 ############################### END ######################
