@@ -5,7 +5,7 @@
 rm(list=ls())
 ###################### Excersize #######################
 n <- 100      ### n=100, 1000, Number of Training samples
-CASE <- 2     ### CASE= 1, 2, Case of a true function
+CASE <- 1     ### CASE= 1, 2, Case of a true function
 #####################################################
 NOISE <- 0.1  ### Output noise
 Hyperparameter <- 0.0001
@@ -20,8 +20,6 @@ if(CASE==2){
 par(mfrow=c(2,2))
 ########################## Figure 1 : True function ######################
 D <- seq(-1,1,0.05)
-#X1 <- sapply(1:41, function(x){return(D)})
-#X2 <- t(X1)
 Y <- outer(D,D,g)
 persp(D,D,Y,main='True function',theta=0,phi=30,lwd=0.5)
 ##################### Figure2 : Training Samples #################
@@ -72,7 +70,8 @@ persp(D,D,Yt,main='Trained Learning Machine',theta=0,phi=30,lwd=0.5)
 ################### Figure 4: Generalization Error ####################
 Z <- abs(f(D,D,ww) - outer(D,D,g))
 persp(D,D,Z,main='Generalization error for each point',theta=0,phi=30,lwd=0.5)
-cat('CASE =', CASE, ', n =',n, '\n')
-cat('Training Error = ', mean((f(x1,x2,ww)-y)^2), '\n')
-cat('Generalization Error =', NOISE^2+sum(sum(Z^2))/41^2, '\n')
+
+cat(sprintf('CASE=%g, n=%g\n',CASE,n))
+cat(sprintf('Training Error=%f\n',mean((f(x1,x2,ww)-y)^2)))
+cat(sprintf('Generalization Error=%f\n',NOISE^2+sum(sum(Z^2))/41^2))
 ################################################################
